@@ -48,19 +48,31 @@
 					</draggable>
 					</div>
 				</Panel>
-
+				<Panel name="4" :title="i18nt('designer.customerFieldTitle')">
+					{{i18nt('designer.customerFieldTitle')}}
+					<div slot="content">
+						<draggable tag="ul" :list="customFields" :group="{name: 'dragGroup', pull: 'clone', put: false}"
+							:clone="handleFieldWidgetClone" ghost-class="ghost" :sort="false">
+							<li v-for="(fld, index) in customFields" :key="index" class="field-widget-item"
+								:title="fld.displayName" @dblclick="addFieldByDbClick(fld)">
+								<span>
+									<svg-icon :icon-class="fld.icon" />{{i18nt(`designer.widgetLabel.${fld.type}`)}}
+								</span>
+							</li>
+						</draggable>
+					</div>
+				</Panel>
 				<!--
-        <el-collapse-item name="4" :title="i18nt('designer.customFieldTitle')">
-          <draggable tag="ul" :list="customFields" :group="{name: 'dragGroup', pull: 'clone', put: false}"
-                     :clone="handleFieldWidgetClone" ghost-class="ghost" :sort="false">
-            <li v-for="(fld, index) in customFields" :key="index" class="field-widget-item" :title="fld.displayName"
-                @dblclick="addFieldByDbClick(fld)">
-              <span :title="fld.displayName"><svg-icon :icon-class="fld.icon" />{{i18nt(`designer.widgetLabel.${fld.type}`)}}</span>
-            </li>
-          </draggable>
-        </el-collapse-item>
-        -->
-
+					<el-collapse-item name="4" :title="i18nt('designer.customFieldTitle')">
+					  <draggable tag="ul" :list="customFields" :group="{name: 'dragGroup', pull: 'clone', put: false}"
+								 :clone="handleFieldWidgetClone" ghost-class="ghost" :sort="false">
+						<li v-for="(fld, index) in customFields" :key="index" class="field-widget-item" :title="fld.displayName"
+							@dblclick="addFieldByDbClick(fld)">
+						  <span :title="fld.displayName"><svg-icon :icon-class="fld.icon" />{{i18nt(`designer.widgetLabel.${fld.type}`)}}</span>
+						</li>
+					  </draggable>
+					</el-collapse-item>
+				-->
 			</Collapse>
 
 		</div>
@@ -73,7 +85,7 @@
 		containers,
 		basicFields,
 		advancedFields,
-		customFields
+		// customFields
 	} from "./widgetsConfig";
 	import {
 		generateId,
@@ -90,6 +102,10 @@
 		},
 		props: {
 			designer: Object,
+			// customFields:{
+			// 	type:Array,
+			// 	default:()=>{}
+			// }
 		},
 		data() {
 			return {
@@ -100,9 +116,30 @@
 				containers,
 				basicFields,
 				advancedFields,
-				customFields,
+				// customFields,
 
 				allContainers: [],
+				customFields:[{
+					type: "deptSelect",
+					icon: "grid",
+					plugin:true,
+					formItemFlag: true,
+					options: {
+						size: 'large',
+						placeholder:"请选择",
+						// displayName:"部门选择",
+						
+					},
+					event:{
+						onCreated: '',
+						onMounted: '',
+						onInput: '',
+						onChange: '',
+					},
+					setting: [{
+				
+					}]
+				}],
 			}
 		},
 		computed: {
@@ -118,6 +155,20 @@
 					//console.log(this.scrollerHeight)
 				})
 			})
+		},
+		watch:{
+			// 'customFields': {
+			// 	deep: true,
+			// 	handler(val) {
+			// 		console.log(val);
+			// 		this.customFields = this.customFields.map(fld => {
+			// 			return {
+			// 				...fld,
+			// 				displayName: this.i18nt(`designer.widgetLabel.${fld.type}`)
+			// 			}
+			// 		})
+			// 	}
+			// },
 		},
 		methods: {
 			loadWidgets() {
@@ -148,12 +199,12 @@
 				})
 
 				///*
-				this.customFields = this.customFields.map(fld => {
-					return {
-						...fld,
-						displayName: this.i18nt(`designer.widgetLabel.${fld.type}`)
-					}
-				})
+				// this.customFields = this.customFields.map(fld => {
+				// 	return {
+				// 		...fld,
+				// 		displayName: this.i18nt(`designer.widgetLabel.${fld.type}`)
+				// 	}
+				// })
 				//*/
 			},
 

@@ -360,6 +360,9 @@
 				</Cascader>
 			</template>
 
+			<template v-if="!!field.plugin">
+				<components :is="field.type" v-bind="field.options" v-on="field.event"></components>
+			</template>
 		</FormItem>
 		<div v-else class="static-content-item" v-show="!field.options.hidden || (designState === true)"
 			:class="{'selected': selected}" @click.stop="selectField(field)">
