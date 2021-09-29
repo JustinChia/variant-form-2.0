@@ -14,6 +14,12 @@ import 'view-design/dist/styles/iview.css';
 import '@/styles/index.scss'
 import '@/iconfont/iconfont.css'
 
+
+import DeptSelect from '@/customer-component/deptSelect.vue';
+Vue.component(DeptSelect.name,DeptSelect);
+
+
+
 /* 递归组件如需在递归组件的嵌套组件中使用，必须注册为全局组件，原因不明？？ begin */
 Vue.component('container-widget', ContainerWidget)
 Vue.component('container-item', ContainerItem)
