@@ -721,7 +721,7 @@
 											</Divider>
 										</FormItem>
 										<FormItem :label="i18nt('designer.setting.gutter')" v-if="hasConfig('gutter')">
-											<Input type="number" v-model="optionModel.gutter" style="width: 100%" />
+											<Input type="number" v-model.number="optionModel.gutter" style="width: 100%" />
 										</FormItem>
 									</Form>
 
