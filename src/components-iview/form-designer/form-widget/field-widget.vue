@@ -309,7 +309,7 @@
 					v-model="fieldModel"
 					class="full-width-input" 
 					:disabled="field.options.disabled" 
-					:size="field.options.size"
+					:size="field.options.size||'default'"
 					:clearable="field.options.clearable" 
 					:filterable="field.options.filterable"
 					:placeholder="field.options.placeholder || i18nt('render.hint.selectPlaceholder')"

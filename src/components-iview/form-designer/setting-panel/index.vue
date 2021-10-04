@@ -300,7 +300,7 @@
 										</FormItem>
 										<FormItem :label="i18nt('designer.setting.fileMaxSize')"
 											v-if="hasConfig('fileMaxSize')">
-											<Input type="number" v-model="optionModel.fileMaxSize" :min="1"
+											<Input type="number" v-model.number="optionModel.fileMaxSize" :min="1"
 												class="hide-spin-button" style="width: 100%" />
 										</FormItem>
 										<FormItem
@@ -1069,7 +1069,7 @@
 				],
 				widgetSizes: [{
 						label: 'default',
-						value: '',
+						value: 'default',
 					},
 					{
 						label: 'large',
