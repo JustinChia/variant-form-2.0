@@ -10,12 +10,14 @@
 								<Panel name="1">
 									{{i18nt('designer.setting.commonSetting')}}
 									<div slot="content">
-										<FormItem :label="i18nt('designer.setting.fieldName')" v-if="hasConfig('name')" :rules="nameRequiredRule">
-											<Input type="text" v-model="optionModel.name" @change="updateWidgetNameAndRef" />
-										</FormItem>
 										<FormItem :label="i18nt('designer.setting.label')"
 											v-if="hasConfig('label') && !noLabelSetting">
-											<Input type="text" v-model="optionModel.label" />
+											<Input type="text" v-model="optionModel.label" @on-blur="getPinYin" @on-enter="getPinYin" />
+										</FormItem>
+										<FormItem :label="i18nt('designer.setting.fieldName')" v-if="hasConfig('name')" :rules="nameRequiredRule">
+											<Input type="text" v-model="optionModel.name" @change="updateWidgetNameAndRef">
+												<Button slot="append" icon="md-repeat" @click="getPinYin"></Button>
+											</Input>
 										</FormItem>
 										<FormItem :label="i18nt('designer.setting.labelAlign')"
 											v-if="hasConfig('label') && !noLabelSetting && (selectedWidget.type !== 'button')">
@@ -1002,6 +1004,10 @@
 	import Draggable from 'vuedraggable'
 	import CodeEditor from '../../code-editor/index'
 	import OptionItemsSetting from "../setting-panel/option-items-setting";
+	
+	import PinYinDict from '@/utils/pinyin_dict_notone.js'
+	import PinYinUtil from '@/utils/pinyinUtil.js'
+	
 	import {
 		addWindowResizeHandler,
 		deepClone,
@@ -1722,6 +1728,9 @@
 				this.$nextTick(() => {
 					$this.$forceUpdate();
 				})
+			},
+			getPinYin(){
+				this.optionModel.name=window.pinyinUtil.getPinyin(this.optionModel.label,'')
 			}
 		}
 	}
