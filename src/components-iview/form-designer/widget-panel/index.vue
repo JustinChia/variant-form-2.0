@@ -48,8 +48,8 @@
 					</draggable>
 					</div>
 				</Panel>
-				<Panel name="4" :title="i18nt('designer.customerFieldTitle')">
-					{{i18nt('designer.customerFieldTitle')}}
+				<Panel name="4" :title="i18nt('designer.customFieldTitle')" v-if="customFields.length>0">
+					{{i18nt('designer.customFieldTitle')}}
 					<div slot="content">
 						<draggable tag="ul" :list="customFields" :group="{name: 'dragGroup', pull: 'clone', put: false}"
 							:clone="handleFieldWidgetClone" ghost-class="ghost" :sort="false">
