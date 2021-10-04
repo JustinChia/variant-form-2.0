@@ -125,7 +125,7 @@
 										</FormItem>
 										<FormItem :label="i18nt('designer.setting.labelWidth')"
 											v-if="hasConfig('labelWidth')">
-											<Input type="number" v-model="optionModel.labelWidth"
+											<Input type="number" v-model.number="optionModel.labelWidth"
 												@input.native="inputNumberHandler" min="0" class="hide-spin-button" />
 										</FormItem>
 										<FormItem :label="i18nt('designer.setting.rows')" v-if="hasConfig('rows')">
@@ -300,7 +300,7 @@
 										</FormItem>
 										<FormItem :label="i18nt('designer.setting.fileMaxSize')"
 											v-if="hasConfig('fileMaxSize')">
-											<Input type="number" v-model="optionModel.fileMaxSize" :min="1"
+											<Input type="number" v-model.number="optionModel.fileMaxSize" :min="1"
 												class="hide-spin-button" style="width: 100%" />
 										</FormItem>
 										<FormItem
@@ -877,7 +877,7 @@
 									</RadioGroup>
 								</FormItem>
 								<FormItem :label="i18nt('designer.setting.labelWidth')">
-									<Input type="number" v-model="formConfig.labelWidth" :min="0" style="width: 100%" />
+									<Input type="number" v-model.number="formConfig.labelWidth" :min="0" style="width: 100%" />
 								</FormItem>
 								<FormItem :label="i18nt('designer.setting.formCss')" :labelWidth="180">
 									<Button type="info" icon="md-create" @click="editFormCss">
@@ -1069,7 +1069,7 @@
 				],
 				widgetSizes: [{
 						label: 'default',
-						value: '',
+						value: 'default',
 					},
 					{
 						label: 'large',

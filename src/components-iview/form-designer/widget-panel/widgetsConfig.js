@@ -852,7 +852,7 @@ export const advancedFields = [
     options: {
       name: '',
       label: '',
-      defaultValue: '',
+      defaultValue: [],
       placeholder: '',
       size: '',
       labelWidth: null,
