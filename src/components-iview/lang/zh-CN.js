@@ -298,6 +298,8 @@ export default {
       editWidgetEventHandler: '组件事件处理',
       editFormEventHandler: '表单事件处理',
 
+	  edit:'编辑',
+	  editGridData:'编辑表格数据'
     }
 
   }

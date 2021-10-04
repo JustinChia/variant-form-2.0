@@ -55,8 +55,8 @@
 							:clone="handleFieldWidgetClone" ghost-class="ghost" :sort="false">
 							<li v-for="(fld, index) in customFields" :key="index" class="field-widget-item"
 								:title="fld.displayName" @dblclick="addFieldByDbClick(fld)">
-								<span>
-									<svg-icon :icon-class="fld.icon" />{{i18nt(`designer.widgetLabel.${fld.type}`)}}
+								<span class="iconfont" :class="[fld.icon]">
+									{{i18nt(`designer.widgetLabel.${fld.type}`)}}
 								</span>
 							</li>
 						</draggable>
@@ -102,10 +102,10 @@
 		},
 		props: {
 			designer: Object,
-			// customFields:{
-			// 	type:Array,
-			// 	default:()=>{}
-			// }
+			customFields:{
+				type:Array,
+				default:()=> []
+			}
 		},
 		data() {
 			return {
@@ -119,27 +119,6 @@
 				// customFields,
 
 				allContainers: [],
-				customFields:[{
-					type: "deptSelect",
-					icon: "grid",
-					plugin:true,
-					formItemFlag: true,
-					options: {
-						size: 'large',
-						placeholder:"请选择",
-						// displayName:"部门选择",
-						
-					},
-					event:{
-						onCreated: '',
-						onMounted: '',
-						onInput: '',
-						onChange: '',
-					},
-					setting: [{
-				
-					}]
-				}],
 			}
 		},
 		computed: {
@@ -155,20 +134,6 @@
 					//console.log(this.scrollerHeight)
 				})
 			})
-		},
-		watch:{
-			// 'customFields': {
-			// 	deep: true,
-			// 	handler(val) {
-			// 		console.log(val);
-			// 		this.customFields = this.customFields.map(fld => {
-			// 			return {
-			// 				...fld,
-			// 				displayName: this.i18nt(`designer.widgetLabel.${fld.type}`)
-			// 			}
-			// 		})
-			// 	}
-			// },
 		},
 		methods: {
 			loadWidgets() {
@@ -302,6 +267,12 @@
 					text-overflow: ellipsis;
 					overflow: hidden;
 					background: #f1f2f3;
+					padding:0px 2px;
+					box-sizing: border-box;
+					.iconfont{
+						font-size:14px;
+						
+					}
 				}
 
 				.container-widget-item:hover,

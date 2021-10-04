@@ -295,6 +295,8 @@ export default {
       editWidgetEventHandler: 'Edit Widget Event Handler',
       editFormEventHandler: 'Edit Form Event Handler',
 
+	  edit:'Edit',
+	  editGridData:'Edit Table Data'
     }
 
   }

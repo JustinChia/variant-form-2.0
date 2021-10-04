@@ -1,6 +1,6 @@
 <template>
-	<Input type="text" :size="size" :placeholder="placeholder">
-		<Button slot="append" @click="show">选择</Button>
+	<Input type="text" :size="size" :placeholder="placeholder" :disabled="disabled" v-model="value">
+		<Button slot="append" @click="show">{{text}}</Button>
 	</Input>
 </template>
 
@@ -8,11 +8,19 @@
 	export default{
 		name:"deptSelect",
 		data(){
-			return {}
+			return {
+				value:""
+			}
 		},
 		props:{
 			size:String,
-			placeholder:String
+			placeholder:String,
+			text:{
+				type:String,
+				default:"选择"
+			},
+			disabled:false,
+			
 		},
 		methods:{
 			show(){

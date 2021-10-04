@@ -480,9 +480,13 @@ export function createDesigner(vueInstance) {
         originalWidget = this.getFieldWidgetByType(widget.type)
       }
 
-      if (!originalWidget || !originalWidget.options) {
-        return false
-      }
+      if(!widget.plugin){
+		  if (!originalWidget || !originalWidget.options) {
+			return false
+		  }
+	  }else{
+		return Object.keys(widget.options).indexOf(configName) > -1  
+	  }
 
       return Object.keys(originalWidget.options).indexOf(configName) > -1
     },

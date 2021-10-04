@@ -7,6 +7,8 @@
 <script>
 import VFormDesigner from './components/form-designer/index.vue'
 
+import config from './plugins/deptSelect/config.js'
+
 export default {
   name: 'App',
   components: {

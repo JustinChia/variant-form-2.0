@@ -31,7 +31,7 @@
 
 		<Layout>
 			<Sider class="side-panel">
-				<widget-panel :designer="designer" />
+				<widget-panel :designer="designer" :custom-fields="customFields" />
 			</Sider>
 
 			<Layout class="center-layout-container">
@@ -40,8 +40,7 @@
 				</Header>
 				<Content class="form-widget-main">
 					<Scroll class="container-scroll-bar" :height="scrollerHeight">
-						<v-form-widget :designer="designer" :form-config="designer.formConfig"
-							:custom-fields="customFields">
+						<v-form-widget :designer="designer" :form-config="designer.formConfig">
 						</v-form-widget>
 					</Scroll>
 				</Content>
@@ -49,7 +48,7 @@
 
 			<Sider class="setting-pannel">
 				<setting-panel :designer="designer" :selected-widget="designer.selectedWidget"
-					:form-config="designer.formConfig" />
+					:form-config="designer.formConfig" :custom-fields="customFields" />
 			</Sider>
 		</Layout>
 
@@ -86,30 +85,13 @@
 			VFormWidget,
 		},
 		props: {
-			// customFields: {
-			// 	type: Array,
-			// 	default: () => {}
-			// }
+			customFields: {
+				type: Array,
+				default: () => {}
+			}
 		},
 		data() {
 			return {
-				customFields:[{
-					type: "deptSelect",
-					icon: "grid",
-					formItemFlag: true,
-					options: {
-						size: 'small',
-						placehoder:"请选择",
-						displayName:"部门选择",
-						onCreated: '',
-						onMounted: '',
-						onInput: '',
-						onChange: '',
-					},
-					setting: [{
-
-					}]
-				}],
 				vFormVersion: VARIANT_FORM_VERSION,
 				curLangName: '',
 
@@ -130,7 +112,9 @@
 		},
 		mounted() {
 			this.initLocale()
-
+			
+			this.initPluginI18n();
+			
 			this.scrollerHeight = window.innerHeight - 56 - 36;
 			addWindowResizeHandler(() => {
 				this.$nextTick(() => {
@@ -156,7 +140,16 @@
 				this.curLangName = this.i18nt('application.' + curLocale)
 				this.changeLanguage(curLocale)
 			},
-
+			initPluginI18n(){
+				for(let i in this.customFields){
+					let plugins=this.customFields[i];
+					if(plugins.i18n){
+						for(let lang in plugins.i18n){
+							i18n.methods.appendResource(lang,plugins.i18n[lang]);
+						}
+					}
+				}
+			},
 			handleLanguageChanged(command) {
 				this.changeLanguage(command)
 				this.curLangName = this.i18nt('application.' + command)
