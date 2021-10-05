@@ -1068,6 +1068,9 @@
 					}
 				],
 				widgetSizes: [{
+						label: 'inherit',
+						value: '',
+					},{
 						label: 'default',
 						value: 'default',
 					},
@@ -1081,6 +1084,9 @@
 					}
 				],
 				widgetSizes2: [{
+						label: 'inherit',
+						value: '',
+					},{
 						label: 'default',
 						value: 'default',
 					},

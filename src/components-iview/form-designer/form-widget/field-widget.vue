@@ -21,7 +21,7 @@
 						v-model="fieldModel" 
 						:disabled="field.options.disabled"
 						:readonly="field.options.readonly" 
-						:size="field.options.size||'default'" 
+						:size="field.options.size||size||'default'" 
 						 class="hide-spin-button"
 						
 						:type="inputType" 
@@ -50,7 +50,7 @@
 			
 			<template v-if="field.type === 'textarea'">
 				<Input type="textarea" ref="fieldEditor" v-model="fieldModel" :disabled="field.options.disabled"
-					:readonly="field.options.readonly" :size="field.options.size||'default'"
+					:readonly="field.options.readonly" :size="field.options.size||size||'default'"
 					:placeholder="field.options.placeholder" :rows="field.options.rows"
 					:minlength="field.options.minLength" :maxlength="field.options.maxLength"
 					:show-word-limit="field.options.showWordLimit" @change="handleChangeEvent"
@@ -61,7 +61,7 @@
 			<template v-if="field.type === 'number'">
 				<InputNumber  ref="fieldEditor" v-model="fieldModel" class="full-width-input"
 					:disabled="field.options.disabled"
-					:size="field.options.size||'default'"
+					:size="field.options.size||size||'default'"
 					:controls-outside="field.options.controlsPosition==='default'" 
 					:placeholder="field.options.placeholder"
 					:min="field.options.min" 
@@ -79,11 +79,11 @@
 				<RadioGroup ref="fieldEditor" 
 					 v-model="fieldModel" 
 					:disabled="field.options.disabled" 
-					:size="field.options.size||'default'">
+					:size="field.options.size||size||'default'">
 					<Radio v-for="(item, index) in field.options.optionItems" 
 						:key="index" 
 						:label="item.value"
-						:size="field.options.size||'default'"
+						:size="field.options.size||size||'default'"
 						:disabled="field.options.disabled" 
 						:style="{display: field.options.displayStyle}">{{item.label}}
 					</Radio>
@@ -94,12 +94,12 @@
 				<CheckboxGroup ref="fieldEditor" 
 				 v-model="checkedList" 
 				:disabled="field.options.disabled" 
-				:size="field.options.size||'default'">
+				:size="field.options.size||size||'default'">
 					<Checkbox v-for="(item, index) in field.options.optionItems" 
 						:key="index" 
 						:label="item.label"
 						:value="item.value" 
-						:size="field.options.size||'default'"
+						:size="field.options.size||size||'default'"
 						:data-value="item.value" 
 						:disabled="field.options.disabled"
 						:style="{display: field.options.displayStyle}">
@@ -111,7 +111,7 @@
 				<Select ref="fieldEditor" 
 					v-model="fieldModel" class="full-width-input"
 					:disabled="field.options.disabled" 
-					:size="field.options.size||'default'" 
+					:size="field.options.size||size||'default'" 
 					:clearable="field.options.clearable"
 					:filterable="field.options.filterable" 
 					:allow-create="field.options.allowCreate"
@@ -137,7 +137,7 @@
 					:transfer="true"
 					:disabled="field.options.disabled" 
 					:readonly="field.options.readonly" 
-					:size="field.options.size||'default'"
+					:size="field.options.size||size||'default'"
 					:clearable="field.options.clearable" 
 					:editable="field.options.editable"
 					:format="field.options.format" 
@@ -152,7 +152,7 @@
 					confirm
 					:transfer="true"
 					:disabled="field.options.disabled" :readonly="field.options.readonly"
-					:size="field.options.size||'default'"
+					:size="field.options.size||size||'default'"
 					:clearable="field.options.clearable" :editable="field.options.editable"
 					:format="field.options.format" 
 					 value-format="HH:mm:ss"
@@ -168,7 +168,7 @@
 					class="full-width-input" 
 					:readonly="field.options.readonly" 
 					:disabled="field.options.disabled"
-					:size="field.options.size||'default'" 
+					:size="field.options.size||size||'default'" 
 					:clearable="field.options.clearable" 
 					:editable="field.options.editable"
 					:format="field.options.format" 
@@ -183,7 +183,7 @@
 					class="full-width-input" 
 					:disabled="field.options.disabled" 
 					:readonly="field.options.readonly"
-					:size="field.options.size||'default'" 
+					:size="field.options.size||size||'default'" 
 					:clearable="field.options.clearable" 
 					:editable="field.options.editable"
 					:format="field.options.format" 
@@ -195,7 +195,7 @@
 
 			<template v-if="field.type === 'switch'">
 				<iSwitch ref="fieldEditor" v-model="fieldModel" 
-				    :size="field.options.size||'default'"
+				    :size="field.options.size||size||'default'"
 					:disabled="field.options.disabled"
 					:active-text="field.options.activeText" 
 					:inactive-text="field.options.inactiveText"
@@ -219,7 +219,7 @@
 
 			<template v-if="field.type === 'color'">
 				<ColorPicker ref="fieldEditor" v-model="fieldModel" 
-					:size="field.options.size||'default'"
+					:size="field.options.size||size||'default'"
 					:disabled="field.options.disabled"></ColorPicker>
 			</template>
 
@@ -309,7 +309,7 @@
 					v-model="fieldModel"
 					class="full-width-input" 
 					:disabled="field.options.disabled" 
-					:size="field.options.size||'default'"
+					:size="field.options.size||size||'default'"
 					:clearable="field.options.clearable" 
 					:filterable="field.options.filterable"
 					:placeholder="field.options.placeholder || i18nt('render.hint.selectPlaceholder')"
@@ -332,7 +332,7 @@
 			<template v-if="field.type === 'button'">
 				<Button ref="fieldEditor" 					
 					:type="field.options.type||'default'" 
-					:size="field.options.size||'default'" 
+					:size="field.options.size||size||'default'" 
 					:ghost="field.options.plain"
 					:icon="field.options.icon"					
 					:shape="field.options.circle?'circle':undefined"
@@ -348,7 +348,7 @@
 
 			<template v-if="field.type === 'divider'">
 				<Divider ref="fieldEditor"
-				 :size="field.options.size||'default'"
+				 :size="field.options.size||size.replace('large','default')||'default'"
 				 :type="(field.options.direction!='horizontal')?'vertical':'horizontal'" 
 				 :orientation="field.options.contentPosition">
 					{{field.options.label}}
@@ -526,7 +526,7 @@
 					}
 				}
 
-				return 'medium'
+				return 'default'
 			},
 
 			inputType() {
