@@ -80,9 +80,9 @@
 			}
 		},
 		computed: {
-			formConfig() {
-				return this.formJson.formConfig
-			},
+			// formConfig() {
+			// 	return this.formJson.formConfig
+			// },
 
 			widgetList() {
 				return this.formJson.widgetList
@@ -110,7 +110,10 @@
 
 		},
 		watch: {
-			//
+			formJson:function(){
+				this.formConfig=this.formJson.formConfig;
+				this.insertCustomStyleAndScriptNode();
+			}
 		},
 		created() {
 			this.insertCustomStyleAndScriptNode()
@@ -123,7 +126,10 @@
 			this.initLocale()
 			this.handleOnMounted()
 		},
-		methods: {					
+		methods: {	
+			formConfig() {
+				return this.formJson.formConfig
+			},
 			initLocale() {
 				let curLocale = localStorage.getItem('v_form_locale') || 'zh-CN'
 				this.changeLanguage(curLocale)

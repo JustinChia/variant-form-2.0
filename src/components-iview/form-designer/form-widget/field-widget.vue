@@ -491,7 +491,7 @@
 				if (!!this.designer) {
 					return this.designer.formConfig.labelWidth
 				} else {
-					return this.formConfig.labelWidth
+					return this.formConfig().labelWidth
 				}
 			},
 
@@ -503,7 +503,7 @@
 				if (!!this.designer) {
 					return this.designer.formConfig.labelAlign || 'label-left-align'
 				} else {
-					return this.formConfig.labelAlign || 'label-left-align'
+					return this.formConfig().labelAlign || 'label-left-align'
 				}
 			},
 
@@ -522,7 +522,7 @@
 					}
 				} else {
 					if (!!this.formConfig && !!this.formConfig.size) {
-						return this.formConfig.size
+						return this.formConfig().size
 					}
 				}
 
