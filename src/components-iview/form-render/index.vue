@@ -67,7 +67,8 @@
 				globalOptionData: this.optionData,
 				globalModel: {
 					formModel: this.formDataModel,
-				}
+				},
+				i18n:i18n.methods.i18nt
 			}
 		},
 		data() {
