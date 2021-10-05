@@ -48,19 +48,31 @@
 					</draggable>
 					</div>
 				</Panel>
-
+				<Panel name="4" :title="i18nt('designer.customFieldTitle')" v-if="customFields.length>0">
+					{{i18nt('designer.customFieldTitle')}}
+					<div slot="content">
+						<draggable tag="ul" :list="customFields" :group="{name: 'dragGroup', pull: 'clone', put: false}"
+							:clone="handleFieldWidgetClone" ghost-class="ghost" :sort="false">
+							<li v-for="(fld, index) in customFields" :key="index" class="field-widget-item"
+								:title="fld.displayName" @dblclick="addFieldByDbClick(fld)">
+								<span class="iconfont" :class="[fld.icon]">
+									{{i18nt(`designer.widgetLabel.${fld.type}`)}}
+								</span>
+							</li>
+						</draggable>
+					</div>
+				</Panel>
 				<!--
-        <el-collapse-item name="4" :title="i18nt('designer.customFieldTitle')">
-          <draggable tag="ul" :list="customFields" :group="{name: 'dragGroup', pull: 'clone', put: false}"
-                     :clone="handleFieldWidgetClone" ghost-class="ghost" :sort="false">
-            <li v-for="(fld, index) in customFields" :key="index" class="field-widget-item" :title="fld.displayName"
-                @dblclick="addFieldByDbClick(fld)">
-              <span :title="fld.displayName"><svg-icon :icon-class="fld.icon" />{{i18nt(`designer.widgetLabel.${fld.type}`)}}</span>
-            </li>
-          </draggable>
-        </el-collapse-item>
-        -->
-
+					<el-collapse-item name="4" :title="i18nt('designer.customFieldTitle')">
+					  <draggable tag="ul" :list="customFields" :group="{name: 'dragGroup', pull: 'clone', put: false}"
+								 :clone="handleFieldWidgetClone" ghost-class="ghost" :sort="false">
+						<li v-for="(fld, index) in customFields" :key="index" class="field-widget-item" :title="fld.displayName"
+							@dblclick="addFieldByDbClick(fld)">
+						  <span :title="fld.displayName"><svg-icon :icon-class="fld.icon" />{{i18nt(`designer.widgetLabel.${fld.type}`)}}</span>
+						</li>
+					  </draggable>
+					</el-collapse-item>
+				-->
 			</Collapse>
 
 		</div>
@@ -73,7 +85,7 @@
 		containers,
 		basicFields,
 		advancedFields,
-		customFields
+		// customFields
 	} from "./widgetsConfig";
 	import {
 		generateId,
@@ -90,6 +102,10 @@
 		},
 		props: {
 			designer: Object,
+			customFields:{
+				type:Array,
+				default:()=> []
+			}
 		},
 		data() {
 			return {
@@ -100,7 +116,7 @@
 				containers,
 				basicFields,
 				advancedFields,
-				customFields,
+				// customFields,
 
 				allContainers: [],
 			}
@@ -148,12 +164,12 @@
 				})
 
 				///*
-				this.customFields = this.customFields.map(fld => {
-					return {
-						...fld,
-						displayName: this.i18nt(`designer.widgetLabel.${fld.type}`)
-					}
-				})
+				// this.customFields = this.customFields.map(fld => {
+				// 	return {
+				// 		...fld,
+				// 		displayName: this.i18nt(`designer.widgetLabel.${fld.type}`)
+				// 	}
+				// })
 				//*/
 			},
 
@@ -251,6 +267,12 @@
 					text-overflow: ellipsis;
 					overflow: hidden;
 					background: #f1f2f3;
+					padding:0px 2px;
+					box-sizing: border-box;
+					.iconfont{
+						font-size:14px;
+						
+					}
 				}
 
 				.container-widget-item:hover,

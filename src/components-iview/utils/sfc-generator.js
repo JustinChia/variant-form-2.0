@@ -477,14 +477,43 @@ function buildFieldWidget(widget, formConfig) {
 `<div class="static-content-item" ${vShowAttr}>${fwDom}</div>`
 }
 
+
+function buildPluginWidget(widget,formConfig){
+	console.log(widget,formConfig);
+	
+	let tag=widget.type;
+	let name=widget.id;
+	
+	let params=[];
+	
+	Object.keys(widget.options).forEach(function(index) {
+		if(widget.options[index].constructor==String){
+			params.push(`${index}="${widget.options[index]}"`);
+		}else{
+			params.push(`:${index}="${widget.options[index]}"`);
+		}
+	});
+	let paramStr=params.toString().replace(/,/g,' ');
+	
+	return `<${tag} ${paramStr}></${tag}>`
+}
+
+
+
+
+
 function genTemplate(formConfig, widgetList, vue3Flag = false) {
   const submitAttr = !!vue3Flag ? `@submit.prevent` : `@submit.native.prevent`
-  let childrenList = []
+  let childrenList = [];
   widgetList.forEach(wgt => {
     if (wgt.category === 'container') {
       childrenList.push( buildContainerWidget(wgt, formConfig) )
     } else {
-      childrenList.push( buildFieldWidget(wgt, formConfig) )
+		if(wgt.plugin){
+			childrenList.push( buildPluginWidget(wgt, formConfig) )
+		}else{
+			childrenList.push( buildFieldWidget(wgt, formConfig) )
+		}
     }
   })
 
