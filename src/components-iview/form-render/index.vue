@@ -64,6 +64,7 @@
 				refList: this.widgetRefList,
 				sfRefList: this.subFormRefList, //收集SubForm引用
 				formConfig: this.formConfig,
+				formDesigner:null,	//注入null，以便插件可以区分是在设计器模式调用还是在Render模式调用
 				globalOptionData: this.optionData,
 				globalModel: {
 					formModel: this.formDataModel,
