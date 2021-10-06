@@ -107,7 +107,7 @@
 		},
 		provide() {
 			return {
-				i18n:i18n.methods.i18nt
+				i18n:i18n
 			}
 		},
 		mounted() {

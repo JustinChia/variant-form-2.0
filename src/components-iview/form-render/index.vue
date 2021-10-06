@@ -57,7 +57,11 @@
 				type: Object,
 				default: () => {}
 			},
-			container:Object
+			container:Object,
+			customFields: {
+				type: Array,
+				default: () => {}
+			}
 		},
 		provide() {
 			return {
@@ -69,7 +73,7 @@
 				globalModel: {
 					formModel: this.formDataModel,
 				},
-				i18n:i18n.methods.i18nt
+				i18n:i18n
 			}
 		},
 		data() {
@@ -115,6 +119,20 @@
 			formJson:function(){
 				this.formConfig=this.formJson.formConfig;
 				this.insertCustomStyleAndScriptNode();
+			},
+			customFields:{
+				deep: true,
+				handler(val, oldVal) {
+					console.log(val);
+					val.forEach(plugin=>{
+						if(plugin.i18n){
+							for(let key in plugin.i18n){
+								console.log(key,plugin.i18n[key]);
+								i18n.methods.appendResource(key,plugin.i18n[key]);
+							}
+						}
+					})
+				}
 			}
 		},
 		created() {
