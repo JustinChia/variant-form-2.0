@@ -1505,10 +1505,8 @@
 						if(val.plugin){
 							for(let i in val.setting.eventSetting){
 								var event=val.setting.eventSetting[i];
-								console.log(event);
 								this.eventPluginParamsMap[event.eventName]=`${event.eventName}(${event.eventParam}) {`;
 							}
-							console.log(this.eventPluginParamsMap);
 						}
 					}
 				}

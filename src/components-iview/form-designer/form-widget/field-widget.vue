@@ -797,15 +797,6 @@
 			},
 			
 			handlePluginEvent(eventName,eventArgs) {
-				this.vRenderProxy(
-					{
-						name:this.getPropName(),
-						type:eventName,
-						args:eventArgs
-					}
-				);
-				
-				///找到参数
 				let param=[];
 				for(let i in this.field.setting.eventSetting){
 					let event=this.field.setting.eventSetting[i];
@@ -815,7 +806,7 @@
 				}
 				if (!!this.field.options[eventName]) {
 					let customFunc = new Function(...param,this.field.options[eventName])
-					customFunc.apply(this.vRenderScope(),eventArgs)
+					customFunc.apply(this,eventArgs)
 				}
 			},			
 

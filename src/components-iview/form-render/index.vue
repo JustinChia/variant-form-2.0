@@ -123,11 +123,9 @@
 			customFields:{
 				deep: true,
 				handler(val, oldVal) {
-					console.log(val);
 					val.forEach(plugin=>{
 						if(plugin.i18n){
 							for(let key in plugin.i18n){
-								console.log(key,plugin.i18n[key]);
 								i18n.methods.appendResource(key,plugin.i18n[key]);
 							}
 						}
