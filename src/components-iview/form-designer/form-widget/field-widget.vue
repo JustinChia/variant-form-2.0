@@ -319,7 +319,7 @@
 			</template>
 
 			<template v-if="!!field.plugin">
-				<components :is="field.type" v-bind="field.options" v-on="field.event" v-model="fieldModel"></components>
+				<components :is="field.type" v-bind="field.options" v-on="field.event" v-model="fieldModel" @customEvent="handlePluginEvent"></components>
 			</template>
 		</FormItem>
 		<div v-else class="static-content-item" v-show="!field.options.hidden || (designState === true)"
@@ -795,6 +795,29 @@
 					}
 				})
 			},
+			
+			handlePluginEvent(eventName,eventArgs) {
+				this.vRenderProxy(
+					{
+						name:this.getPropName(),
+						type:eventName,
+						args:eventArgs
+					}
+				);
+				
+				///找到参数
+				let param=[];
+				for(let i in this.field.setting.eventSetting){
+					let event=this.field.setting.eventSetting[i];
+					if(event.eventName===eventName){
+						param=event.eventParam.split(",");
+					}
+				}
+				if (!!this.field.options[eventName]) {
+					let customFunc = new Function(...param,this.field.options[eventName])
+					customFunc.apply(this.vRenderScope(),eventArgs)
+				}
+			},			
 
 			handleOnCreated() {
 				if (!!this.field.options.onCreated) {
