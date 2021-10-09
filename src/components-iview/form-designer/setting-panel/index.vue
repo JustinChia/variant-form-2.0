@@ -290,13 +290,18 @@
 											v-if="hasConfig('multipleSelect')">
 											<Checkbox v-model="optionModel.multipleSelect"></Checkbox>
 										</FormItem>
-										<FormItem :label="i18nt('designer.setting.showFileList')"
-											v-if="hasConfig('showFileList')">
+										<FormItem :label="i18nt('designer.setting.showFileList')" v-if="hasConfig('showFileList')">
 											<Checkbox v-model="optionModel.showFileList"></Checkbox>
 										</FormItem>
 										<FormItem :label="i18nt('designer.setting.limit')" v-if="hasConfig('limit')">
 											<Input type="number" v-model="optionModel.limit" :min="1"
 												class="hide-spin-button" style="width: 100%" />
+										</FormItem>
+										<FormItem :label="i18nt('designer.setting.uploadSelectType')" v-if="hasConfig('uploadSelectType')">
+												<Select v-model="optionModel.uploadSelectType">
+													<Option label="Select" value="select"></Option>
+													<Option label="Drag" value="drag"></Option>
+												</Select>
 										</FormItem>
 										<FormItem :label="i18nt('designer.setting.fileMaxSize')"
 											v-if="hasConfig('fileMaxSize')">

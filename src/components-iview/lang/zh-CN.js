@@ -205,6 +205,7 @@ export default {
       multipleSelect: '文件可多选',
       showFileList: '显示文件列表',
       limit: '最大上传数量',
+      uploadSelectType: '文件选择方式',
       fileMaxSize: '文件大小限制(MB)',
       fileAccept: '上传文件过滤',
       fileTypes: '上传文件类型',
