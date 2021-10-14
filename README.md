@@ -1,9 +1,22 @@
 # Variant Form
 #### 一款高效的Vue低代码表单，可视化设计，一键生成源码，享受更多摸鱼时间。
 
-![image](https://ks3-cn-beijing.ksyuncs.com/vform-static/img/vform_demo.gif)
+![image](https://vform2021.oss-cn-beijing.aliyuncs.com/vform_demo.gif?versionId=CAEQGBiBgIDst4zj4hciIDQyYTkyOGY1ZGJiODQ4YTk5ZjkxMGIwMDY0MmY2M2Ri)
 
 <br/>
+
+### 功能一览
+```
+> 拖拽式表单设计；
+> 支持PC、H5两种布局；
+> 支持运行时动态加载表单；
+> 支持表单复杂交互控制；
+> 支持自定义CSS样式；
+> 支持历史撤销、重做功能；
+> 可导出Vue组件、HTML源码；
+> 可导出Vue的SFC单文件组件；
+> 更多功能等你探究...；
+```
 
 ### 安装依赖
 ```
@@ -31,7 +44,7 @@ npm run lib-render
 ```
 
 ### 浏览器兼容性
-```Chrome（及同内核的浏览器如QQ浏览器、360浏览器等等），Firefox，Safari，IE 11```
+```Chrome（及同内核的浏览器如QQ浏览器、360浏览器等等），Edge, Firefox，Safari，IE 11```
 
 <br/>
 
@@ -94,6 +107,8 @@ body {
 }
 </style>
 ```
+
+<br/>
 
 #### 4. 在Vue模板中使用表单渲染器组件
 ```html

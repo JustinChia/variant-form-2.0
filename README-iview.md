@@ -1,7 +1,7 @@
 # Variant Form iView版
 #### 一款高效的Vue低代码表单，可视化设计，一键生成源码，享受更多摸鱼时间。
 
-![image](https://ks3-cn-beijing.ksyuncs.com/vform-static/img/vform_demo.gif)
+![image](https://ks3-cn-beijing.ksyuncs.com/vform-static/img/iview_demo.gif)
 
 <br/>
 
@@ -31,111 +31,11 @@ npm run lib-render-iview
 ```
 
 ### 浏览器兼容性
-```Chrome（及同内核的浏览器如QQ浏览器、360浏览器等等），Firefox，Safari，IE 11```
+```Chrome（及同内核的浏览器如QQ浏览器、360浏览器等等），Edge, Firefox，Safari，IE 11```
 
 <br/>
 
 ### 跟Vue项目集成
-
-
-
-###### 打包
-
-```
-//VFromDesigner:
-npm run lib-iview
-//VFromRender
-npm run lib-render-iview
-```
-
-####### 使用vFormDesigner的lib包
-1. main.js全局注册
-```
-...
-import ViewUI from 'view-design';
-import VFormDesigner from './{YOURPATH}/VFormDesigner.umd.min.js'
-import './{YOURPATH}/VFormDesigner.css'
-...
-Vue.use(VFormDesigner);
-Vue.use(ViewUI, {size:'small'});
-...
-new Vue({
-  render: h => h(App)
-}).$mount('#app')
-```
-2. 在Vue模板中使用组件
-```
-<template>
-  <v-form-designer></v-form-designer>
-</template>
-
-<script>
-  export default {
-    data() {
-      return {
-      }
-    }
-  }
-</script>
-
-<style lang="scss">
-body {
-  margin: 0;  /* 如果页面出现垂直滚动条，则加入此行CSS以消除之 */
-}
-
-
-```
-
-
-####### 使用vFormRender的lib包
-1. main.js全局注册
-```
-...
-import ViewUI from 'view-design';
-import VFormRender from './{YOURPATH}/VFormRender.umd.min.js'
-import './{YOURPATH}/VFormRender.css'
-...
-Vue.use(VFormRender);
-Vue.use(ViewUI, {size:'small'});
-...
-new Vue({
-  render: h => h(App)
-}).$mount('#app')
-```
-2. 在Vue模板中使用组件
-```
-<template>
-  <div>
-    <v-form-render :form-json="formJson" :form-data="formData" :option-data="optionData" ref="vFormRef">
-    </v-form-render>
-    <el-button type="primary" @click="submitForm">Submit</el-button>
-  </div>
-</template>
-<script>
-  export default {
-    data() {
-      return {
-        formJson: {"widgetList":[],"formConfig":{"labelWidth":80,"labelPosition":"left","size":"","labelAlign":"label-left-align","cssCode":"","customClass":"","functions":"","layoutType":"PC","onFormCreated":"","onFormMounted":"","onFormDataChange":""}},
-        formData: {},
-        optionData: {}
-      }
-    },
-    methods: {
-      submitForm() {
-        this.$refs.vFormRef.getFormData().then(formData => {
-          // Form Validation OK
-          alert( JSON.stringify(formData) )
-        }).catch(error => {
-          // Form Validation failed
-          this.$message.error(error)
-        })
-      }
-    }
-  }
-</script>
-```
-
-
 
 <br/>
 
