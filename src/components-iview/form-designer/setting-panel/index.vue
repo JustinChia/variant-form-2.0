@@ -5,7 +5,7 @@
 				<Scroll class="setting-scrollbar" :height="scrollerHeight">
 					<template v-if="!!designer.selectedWidget && !designer.selectedWidget.category">
 						<Form :model="optionModel" size="mini" label-position="left" :labelWidth="120"
-							class="setting-form">
+							class="setting-form" @submit.native.prevent>
 							<Collapse v-model="widgetActiveCollapseNames" class="setting-collapse">
 								<Panel name="1">
 									{{i18nt('designer.setting.commonSetting')}}
@@ -19,7 +19,7 @@
 										</FormItem>
 										<FormItem :label="i18nt('designer.setting.labelAlign')"
 											v-if="hasConfig('label') && !noLabelSetting && (selectedWidget.type !== 'button')">
-											<RadioGroup v-model="optionModel.labelAlign" class="radio-group-custom">
+											<RadioGroup v-model="optionModel.labelAlign" class="radio-group-custom" type="button" button-style="solid">
 												<Radio label="label-left-align">
 													{{i18nt('designer.setting.leftAlign')}}
 												</Radio>
@@ -713,14 +713,14 @@
 								{{i18nt('designer.setting.commonSetting')}}
 								<div slot="content">
 									<Form :model="optionModel" size="mini" label-position="left" :labelWidth="120"
-										class="setting-form">
+										class="setting-form" @submit.native.prevent>
 										<FormItem :label="i18nt('designer.setting.widgetName')"
 											v-if="hasConfig('name')">
 											<Input type="text" v-model="optionModel.name" />
 										</FormItem>
 										<FormItem :label="i18nt('designer.setting.labelAlign')"
 											v-if="hasConfig('labelAlign')">
-											<RadioGroup v-model="optionModel.labelAlign" class="radio-group-custom">
+											<RadioGroup v-model="optionModel.labelAlign" class="radio-group-custom" type="button" button-style="solid">
 												<Radio label="label-left-align">
 													{{i18nt('designer.setting.leftAlign')}}
 												</Radio>
@@ -769,7 +769,7 @@
 									</Form>
 
 									<Form :model="optionModel" size="mini" v-if="selectedWidget.type === 'grid'"
-										label-position="top" class="setting-form">
+										label-position="top" class="setting-form" @submit.native.prevent>
 										<FormItem :label="i18nt('designer.setting.colsOfGrid')">
 											<li v-for="(colItem, colIdx) in selectedWidget.cols" :key="colIdx"
 												class="col-item">
@@ -792,7 +792,7 @@
 									</Form>
 
 									<Form :model="optionModel" size="small" v-if="selectedWidget.type === 'grid-col'"
-										label-position="left" :labelWidth="120" class="setting-form">
+										label-position="left" :labelWidth="120" class="setting-form" @submit.native.prevent>
 										<FormItem :label="i18nt('designer.setting.colSpanTitle')">
 											<Input type="number" v-model.number="optionModel.span" :min="1" :max="24"
 												style="width: 100%" />
@@ -800,7 +800,7 @@
 									</Form>
 									<Form :model="optionModel" size="small" v-if="selectedWidget.type === 'tab'" 
 										label-position="left" :labelWidth="120" 
-										class="setting-form panes-setting">
+										class="setting-form panes-setting" @submit.native.prevent>
 										<FormItem :label="i18nt('designer.setting.tabPaneType')" v-if="hasConfig('displayType')">
 											<Select v-model="optionModel.displayType">
 												<Option v-for="item in tabPaneType" :key="item.value"
@@ -852,7 +852,7 @@
 								{{i18nt('designer.setting.eventSetting')}}
 								<div slot="content">
 									<Form :model="optionModel" size="mini" label-position="left" :labelWidth="150"
-										class="setting-form">
+										class="setting-form" @submit.native.prevent>
 										<FormItem label="onSubFormRowAdd" :labelWidth="180" v-if="hasConfig('onSubFormRowAdd')">
 											<Button type="info" icon="el-icon-edit" plain round
 												@click="editEventHandler('onSubFormRowAdd')">
@@ -888,7 +888,7 @@
 			</TabPane>
 
 			<TabPane v-if="!!designer" :label="i18nt('designer.hint.formSetting')" name="2">
-				<Form :model="formConfig" size="mini" label-position="left" :labelWidth="120" class="setting-form">
+				<Form :model="formConfig" size="mini" label-position="left" :labelWidth="120" class="setting-form" @submit.native.prevent>
 					<Collapse v-model="formActiveCollapseNames" class="setting-collapse">
 						<Panel name="1">
 							{{i18nt('designer.setting.basicSetting')}}
@@ -901,7 +901,7 @@
 									</Select>
 								</FormItem>
 								<FormItem :label="i18nt('designer.setting.labelPosition')">
-									<RadioGroup v-model="formConfig.labelPosition" class="radio-group-custom">
+									<RadioGroup v-model="formConfig.labelPosition" class="radio-group-custom" type="button" button-style="solid">
 										<Radio label="left">{{i18nt('designer.setting.leftPosition')}}
 										</Radio>
 										<Radio label="top">{{i18nt('designer.setting.topPosition')}}
@@ -909,7 +909,7 @@
 									</RadioGroup>
 								</FormItem>
 								<FormItem :label="i18nt('designer.setting.labelAlign')">
-									<RadioGroup v-model="formConfig.labelAlign" class="radio-group-custom">
+									<RadioGroup v-model="formConfig.labelAlign" class="radio-group-custom" type="button" button-style="solid">
 										<Radio label="label-left-align">{{i18nt('designer.setting.leftAlign')}}
 										</Radio>
 										<Radio label="label-center-align">
@@ -980,7 +980,8 @@
 			</TabPane>
 		</Tabs>
 
-		<Modal :title="i18nt('designer.setting.editWidgetEventHandler')" v-model="showWidgetEventDialogFlag" :closable="true" class="small-padding-dialog" draggable :mask-closable="false">
+		<Modal :title="i18nt('designer.setting.editWidgetEventHandler')" v-model="showWidgetEventDialogFlag" :closable="true" 
+			width="800" class="small-padding-dialog" draggable :mask-closable="false">
 			<!-- <Alert :closable="false">{{(optionModel?optionModel.name:'') + '.' + eventParamsMap[curEventName]}}</Alert> -->
 			<div class="codeEditTip">{{(optionModel?optionModel.name:'') + '.' + (eventParamsMap[curEventName]||eventPluginParamsMap[curEventName])}}</div>
 			<code-editor v-if="showWidgetEventDialogFlag" :mode="'javascript'" :readonly="false" v-model="eventHandlerCode"></code-editor>
@@ -996,7 +997,7 @@
 		</Modal>
 
 		<Modal :title="i18nt('designer.setting.editFormEventHandler')"
-			v-model="showFormEventDialogFlag" :closable="true" class="small-padding-dialog" draggable
+			v-model="showFormEventDialogFlag" :closable="true" class="small-padding-dialog" width="800" draggable
 			:mask-closable="false">
 			<div class="codeEditTip">{{'form.' + eventParamsMap[curEventName]}}</div>
 			<code-editor v-if="showFormEventDialogFlag" :mode="'javascript'" :readonly="false" v-model="formEventHandlerCode"></code-editor>
@@ -1012,7 +1013,7 @@
 		</Modal>
 
 		<Modal :title="i18nt('designer.setting.formCss')"
-			v-model="showEditFormCssDialogFlag" :closable="true" class="small-padding-dialog" draggable
+			v-model="showEditFormCssDialogFlag" :closable="true" class="small-padding-dialog" width="800" draggable
 			:mask-closable="false">
 			<code-editor v-if="showEditFormCssDialogFlag" :mode="'css'" :readonly="false" v-model="formCssCode"></code-editor>
 			<div slot="footer" class="dialog-footer">
@@ -1026,7 +1027,7 @@
 		</Modal>
 
 		<Modal :title="i18nt('designer.setting.globalFunctions')"
-			v-model="showEditFunctionsDialogFlag" :closable="true" class="small-padding-dialog" draggable
+			v-model="showEditFunctionsDialogFlag" :closable="true" class="small-padding-dialog" width="800" draggable
 			:mask-closable="false">
 			<code-editor v-if="showEditFunctionsDialogFlag" :mode="'javascript'" :readonly="false" v-model="functionsCode"></code-editor>
 			<div slot="footer" class="dialog-footer">
@@ -1832,6 +1833,10 @@
 			::v-deep .Radio__inner {
 				padding-left: 12px;
 				padding-right: 12px;
+			}
+
+			::v-deep .ivu-radio-wrapper {
+				padding: 0 7px;
 			}
 		}
 		
