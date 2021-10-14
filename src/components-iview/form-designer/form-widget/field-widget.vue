@@ -272,11 +272,11 @@
 					:file-list="fileList"
 					:show-upload-list="field.options.showFileList" 
 					:class="{'hideUploadDiv': uploadBtnHidden}"
-					:max-size="field.options.fileMaxSize" 
+					:max-size="field.options.fileMaxSize*1024" 
 					:format="field.options.fileTypes"
 					:accept="field.options.fileAccept?field.options.fileAccept.toString():undefined"
 					paste
-					
+					:type="field.options.uploadSelectType"
 					:on-exceeded-size="handleFileExceed" 
 					:before-upload="beforeFileUpload"
 					:on-success="handleFileUpload" 
@@ -284,15 +284,17 @@
 					:on-remove="handleFileRemove"
 					:on-preview="handleUploadPreview"
 					:on-progress="handleUploadProgress">
-					<div slot="tip" class="el-upload__tip" v-if="!!field.options.uploadTip">{{field.options.uploadTip}}
+					
+					
+					
+					
+					<div style="padding: 20px 0" v-if="field.options.uploadSelectType=='drag'">
+						<Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+						<p v-if="!!field.options.uploadTip">{{field.options.uploadTip}}</p>
 					</div>
-					<i slot="default" class="ivu-icon ivu-icon-md-add avatar-uploader-icon"></i>
-					<div slot="file" slot-scope="{file}" class="upload-file-list">
-						<span class="upload-file-name" :title="file.name">{{file.name}}</span>
-						<a :href="file.url" download="">
-							<i class="ivu-icon ivu-icon-ios-cloud-download-outline file-action" title="i18nt('render.hint.downloadFile')"></i></a>
-						<i class="ivu-icon ivu-icon-ios-trash file-action" title="i18nt('render.hint.removeFile')"
-							@click="removeUploadFile(file.name)"></i>
+					<div v-else>
+						<Button icon="ios-cloud-upload-outline" v-if="!!field.options.uploadTip">{{field.options.uploadTip}}</Button>
+						<i slot="default" v-else class="ivu-icon ivu-icon-md-add avatar-uploader-icon"></i>
 					</div>
 				</Upload>
 			</template>
@@ -318,6 +320,9 @@
 				</Cascader>
 			</template>
 
+			<template v-if="!!field.plugin">
+				<components :is="field.type" v-bind="field.options" v-on="field.event" v-model="fieldModel" @customEvent="handlePluginEvent"></components>
+			</template>
 		</FormItem>
 		<div v-else class="static-content-item" v-show="!field.options.hidden || (designState === true)"
 			:class="{'selected': selected}" @click.stop="selectField(field)">
@@ -491,7 +496,7 @@
 				if (!!this.designer) {
 					return this.designer.formConfig.labelWidth
 				} else {
-					return this.formConfig.labelWidth
+					return this.formConfig().labelWidth
 				}
 			},
 
@@ -503,7 +508,7 @@
 				if (!!this.designer) {
 					return this.designer.formConfig.labelAlign || 'label-left-align'
 				} else {
-					return this.formConfig.labelAlign || 'label-left-align'
+					return this.formConfig().labelAlign || 'label-left-align'
 				}
 			},
 
@@ -522,7 +527,7 @@
 					}
 				} else {
 					if (!!this.formConfig && !!this.formConfig.size) {
-						return this.formConfig.size
+						return this.formConfig().size
 					}
 				}
 
@@ -792,6 +797,20 @@
 					}
 				})
 			},
+			
+			handlePluginEvent(eventName,eventArgs) {
+				let param=[];
+				for(let i in this.field.setting.eventSetting){
+					let event=this.field.setting.eventSetting[i];
+					if(event.eventName===eventName){
+						param=event.eventParam.split(",");
+					}
+				}
+				if (!!this.field.options[eventName]) {
+					let customFunc = new Function(...param,this.field.options[eventName])
+					customFunc.apply(this,eventArgs)
+				}
+			},			
 
 			handleOnCreated() {
 				if (!!this.field.options.onCreated) {

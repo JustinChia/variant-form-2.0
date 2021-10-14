@@ -290,13 +290,18 @@
 											v-if="hasConfig('multipleSelect')">
 											<Checkbox v-model="optionModel.multipleSelect"></Checkbox>
 										</FormItem>
-										<FormItem :label="i18nt('designer.setting.showFileList')"
-											v-if="hasConfig('showFileList')">
+										<FormItem :label="i18nt('designer.setting.showFileList')" v-if="hasConfig('showFileList')">
 											<Checkbox v-model="optionModel.showFileList"></Checkbox>
 										</FormItem>
 										<FormItem :label="i18nt('designer.setting.limit')" v-if="hasConfig('limit')">
 											<Input type="number" v-model="optionModel.limit" :min="1"
 												class="hide-spin-button" style="width: 100%" />
+										</FormItem>
+										<FormItem :label="i18nt('designer.setting.uploadSelectType')" v-if="hasConfig('uploadSelectType')">
+												<Select v-model="optionModel.uploadSelectType">
+													<Option label="Select" value="select"></Option>
+													<Option label="Drag" value="drag"></Option>
+												</Select>
 										</FormItem>
 										<FormItem :label="i18nt('designer.setting.fileMaxSize')"
 											v-if="hasConfig('fileMaxSize')">
@@ -363,9 +368,20 @@
 												</Option>
 											</Select>
 										</FormItem>
+										
+										<template v-if="designer.selectedWidget.plugin">
+											<FormItem  v-for="setting in designer.selectedWidget.setting.commonSetting">
+												<span slot="label">
+													{{i18nt(setting.displayName)}}
+													<Tooltip v-if="setting.tooltip" :content="i18nt(setting.tooltip)">
+														<i class="ivu-icon ivu-icon-md-information-circle"></i>
+													</Tooltip>
+												</span>
+												<component :is="'Setting'+setting.field.type" :default="setting.default" :field="setting.field" v-model="optionModel[setting.name]"></component>
+											</FormItem>
+										</template>
 									</div>
 								</Panel>
-
 								<Panel name="2">
 									{{i18nt('designer.setting.advancedSetting')}}
 									<div slot="content">
@@ -566,6 +582,19 @@
 										<FormItem :label="i18nt('designer.setting.append')" v-if="hasConfig('append')">
 											<Checkbox v-model="optionModel.append"></Checkbox>
 										</FormItem>
+										
+										
+										<template v-if="designer.selectedWidget.plugin">
+											<FormItem  v-for="setting in designer.selectedWidget.setting.advancedSetting">
+												<span slot="label">
+													{{i18nt(setting.displayName)}}
+													<Tooltip v-if="setting.tooltip" :content="i18nt(setting.tooltip)">
+														<i class="ivu-icon ivu-icon-md-information-circle"></i>
+													</Tooltip>
+												</span>
+												<component :is="'Setting'+setting.field.type" :default="setting.default" :field="setting.field" v-model="optionModel[setting.name]"></component>
+											</FormItem>
+										</template>
 									</div>
 								</Panel>
 
@@ -656,6 +685,20 @@
 												{{i18nt('designer.setting.addEventHandler')}}
 											</Button>
 										</FormItem>
+										
+										<template v-if="designer.selectedWidget.plugin">
+											<FormItem  v-for="setting in designer.selectedWidget.setting.eventSetting">
+												<span slot="label">
+													{{i18nt(setting.displayName)}}
+													<Tooltip v-if="setting.tooltip" :content="i18nt(setting.tooltip)">
+														<i class="ivu-icon ivu-icon-md-information-circle"></i>
+													</Tooltip>
+												</span>
+												<Button type="info" icon="md-create" plain round @click="editEventHandler(setting.eventName)">
+													{{i18nt('designer.setting.addEventHandler')}}
+												</Button>
+											</FormItem>
+										</template>
 									</div>
 								</Panel>
 							
@@ -940,7 +983,7 @@
 		<Modal :title="i18nt('designer.setting.editWidgetEventHandler')" v-model="showWidgetEventDialogFlag" :closable="true" 
 			width="800" class="small-padding-dialog" draggable :mask-closable="false">
 			<!-- <Alert :closable="false">{{(optionModel?optionModel.name:'') + '.' + eventParamsMap[curEventName]}}</Alert> -->
-			<div class="codeEditTip">{{(optionModel?optionModel.name:'') + '.' + eventParamsMap[curEventName]}}</div>
+			<div class="codeEditTip">{{(optionModel?optionModel.name:'') + '.' + (eventParamsMap[curEventName]||eventPluginParamsMap[curEventName])}}</div>
 			<code-editor v-if="showWidgetEventDialogFlag" :mode="'javascript'" :readonly="false" v-model="eventHandlerCode"></code-editor>
 			<div class="codeEditTip">}</div>
 			<div slot="footer" class="dialog-footer">
@@ -1020,12 +1063,13 @@
 			Draggable,
 			OptionItemsSetting,
 			//CodeEditor: () => import('@/components/code-editor/index'),
-			CodeEditor,
+			CodeEditor
 		},
 		props: {
 			designer: Object,
 			selectedWidget: Object,
 			formConfig: Object,
+			customFields: Array
 		},
 		data() {
 			return {
@@ -1371,6 +1415,9 @@
 					'onSubFormRowDelete': 'onSubFormRowDelete(subFormData, deletedDataRow) {',
 					'onSubFormRowChange': 'onSubFormRowChange(subFormData) {',
 				},
+				eventPluginParamsMap:{
+					
+				},
 				eventHandlerCode: '',
 				formEventHandlerCode: '',
 				curEventName: '',
@@ -1460,6 +1507,13 @@
 				handler(val) {
 					if (!!val) {
 						this.activeTab = "1"
+						
+						if(val.plugin){
+							for(let i in val.setting.eventSetting){
+								var event=val.setting.eventSetting[i];
+								this.eventPluginParamsMap[event.eventName]=`${event.eventName}(${event.eventParam}) {`;
+							}
+						}
 					}
 				}
 			},
@@ -1496,7 +1550,7 @@
 
 			this.designer.handleEvent('field-selected', (parentWidget) => {
 				this.subFormChildWidgetFlag = !!parentWidget && (parentWidget.type === 'sub-form');
-			})
+			})			
 
 			//console.log('mounted--', this.formConfig.cssCode)
 			/*
@@ -1570,7 +1624,6 @@
 				if (!this.designer || !this.designer.selectedWidget) {
 					return false
 				}
-
 				return this.designer.hasConfig(this.selectedWidget, configName)
 			},
 
@@ -1696,9 +1749,9 @@
 			},
 
 			editEventHandler(eventName) {
-				this.curEventName = eventName
+				this.curEventName = eventName;
 				this.eventHandlerCode = this.selectedWidget.options[eventName] || ''
-
+				
 				// 设置字段校验函数示例代码
 				if ((eventName === 'onValidate') && (!this.optionModel['onValidate'])) {
 					this.eventHandlerCode =

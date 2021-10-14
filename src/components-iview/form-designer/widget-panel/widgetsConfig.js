@@ -745,7 +745,8 @@ export const advancedFields = [
       uploadTip: '',
       withCredentials: false,
       multipleSelect: false,
-      showFileList: true,
+      showFileList: true,	  
+	  uploadSelectType:"select",
       // limit: 3,
       fileMaxSize: 5, //MB
       fileTypes: ['jpeg', 'png'],
@@ -785,6 +786,7 @@ export const advancedFields = [
       requiredHint: '',
       customRule: '',
       customRuleHint: '',
+	  uploadSelectType:"select",
       //-------------------
       uploadURL: '',
       uploadTip: '',

@@ -49,6 +49,9 @@ export default {
   methods: {
     i18nt(key) {
       return i18n._t(key, i18n.locale, i18n._getMessages())
-    }
+    },
+	appendResource(key,value){
+		i18n.mergeLocaleMessage(key,value);
+	}
   }
 }

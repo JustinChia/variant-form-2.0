@@ -60,6 +60,7 @@
 			return {
 				refList: this.widgetRefList,
 				formConfig: this.formConfig,
+				formDesigner:this.designer,
 				globalOptionData: this.optionData,
 				globalModel: {
 					formModel: this.formModel,

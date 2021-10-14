@@ -475,15 +475,18 @@ export function createDesigner(vueInstance) {
     hasConfig(widget, configName) {
       let originalWidget = null
       if (!!widget.category) {
-        originalWidget = this.getContainerByType(widget.type)
+			originalWidget = this.getContainerByType(widget.type)
       } else {
-        originalWidget = this.getFieldWidgetByType(widget.type)
+			originalWidget = this.getFieldWidgetByType(widget.type)
       }
-
-      if (!originalWidget || !originalWidget.options) {
-        return false
-      }
-
+      if(!widget.plugin){
+		 
+			if (!originalWidget || !originalWidget.options) {
+				return false
+			}else{
+				return Object.keys(widget.options).indexOf(configName) > -1  
+			}
+	  }
       return Object.keys(originalWidget.options).indexOf(configName) > -1
     },
 

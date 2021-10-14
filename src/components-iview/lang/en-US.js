@@ -205,6 +205,7 @@ export default {
       multipleSelect: 'File Multi-select',
       showFileList: 'Show File List',
       limit: 'Max Upload Number',
+	  uploadSelectType: 'Select File Method',
       fileMaxSize: 'Max Size(MB)',
 	  fileAccept: 'Upload File Filter',
       fileTypes: 'Upload File Types',
@@ -295,6 +296,8 @@ export default {
       editWidgetEventHandler: 'Edit Widget Event Handler',
       editFormEventHandler: 'Edit Form Event Handler',
 
+	  edit:'Edit',
+	  editGridData:'Edit Table Data'
     }
 
   }

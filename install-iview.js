@@ -4,6 +4,7 @@ import VFormDesigner from '@/components-iview/form-designer/index.vue'
 import VFormRender from '@/components-iview/form-render/index.vue'
 import ContainerWidget from "@/components-iview/form-designer/form-widget/container-widget";
 import ContainerItem from "@/components-iview/form-render/container-item";
+import SettingControls from '@/components-iview/form-designer/setting-panel/controls/';
 
 
 import '@/utils/directive'
@@ -14,6 +15,7 @@ import '@/iconfont/iconfont.css'
 VFormDesigner.install = function (Vue) {
   Vue.component(VFormDesigner.name, VFormDesigner)
   Vue.component('container-widget', ContainerWidget)
+  Vue.use(SettingControls);
 }
 
 VFormRender.install = function (Vue) {
@@ -31,6 +33,7 @@ const install = (Vue) => {
   Vue.component('container-widget', ContainerWidget)
   Vue.component('container-item', ContainerItem)
   /* end */
+  Vue.use(SettingControls);
 
   components.forEach(component => {
     Vue.component(component.name, component)

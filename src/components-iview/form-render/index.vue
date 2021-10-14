@@ -57,17 +57,23 @@
 				type: Object,
 				default: () => {}
 			},
-			container:Object
+			container:Object,
+			customFields: {
+				type: Array,
+				default: () => {}
+			}
 		},
 		provide() {
 			return {
 				refList: this.widgetRefList,
 				sfRefList: this.subFormRefList, //收集SubForm引用
 				formConfig: this.formConfig,
+				formDesigner:null,	//注入null，以便插件可以区分是在设计器模式调用还是在Render模式调用
 				globalOptionData: this.optionData,
 				globalModel: {
 					formModel: this.formDataModel,
-				}
+				},
+				i18n:i18n
 			}
 		},
 		data() {
@@ -80,9 +86,9 @@
 			}
 		},
 		computed: {
-			formConfig() {
-				return this.formJson.formConfig
-			},
+			// formConfig() {
+			// 	return this.formJson.formConfig
+			// },
 
 			widgetList() {
 				return this.formJson.widgetList
@@ -110,7 +116,22 @@
 
 		},
 		watch: {
-			//
+			formJson:function(){
+				this.formConfig=this.formJson.formConfig;
+				this.insertCustomStyleAndScriptNode();
+			},
+			customFields:{
+				deep: true,
+				handler(val, oldVal) {
+					val.forEach(plugin=>{
+						if(plugin.i18n){
+							for(let key in plugin.i18n){
+								i18n.methods.appendResource(key,plugin.i18n[key]);
+							}
+						}
+					})
+				}
+			}
 		},
 		created() {
 			this.insertCustomStyleAndScriptNode()
@@ -123,7 +144,10 @@
 			this.initLocale()
 			this.handleOnMounted()
 		},
-		methods: {					
+		methods: {	
+			formConfig() {
+				return this.formJson.formConfig
+			},
 			initLocale() {
 				let curLocale = localStorage.getItem('v_form_locale') || 'zh-CN'
 				this.changeLanguage(curLocale)
